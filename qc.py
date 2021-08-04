@@ -50,30 +50,32 @@ def read_jobs():
         print(f"Can't read {job_file}")
         sys.exit()
 
-def read_pheno(job_df):
+def read_file(job_df,file_type):
     for i,row in job_df.iterrows():
-        pheno_file = f"{input_path}/data/phenotypes/{user}/input/{row['pheno_file']}"
-        print(f'Reading {pheno_file}')
+        file_name = row[f'{file_type}_file']
+        file_col = row[f'{file_type}_col']
+        file_path = f"{input_path}/data/phenotypes/{user}/input/{file_name}"
+        print(f'Reading {file_path}')
         try:
-            pheno_df = pd.read_csv(pheno_file,sep=' ')
-            print(pheno_df.head())
+            df = pd.read_csv(file_path,sep=' ')
+            print(df.head())
             # check if first two columns are FID and IID
-            if not list(pheno_df.columns)[:2] == ['FID','IID']:
+            if not list(df.columns)[:2] == ['FID','IID']:
                 print(f"Error: first two columns of pheno file must be FID and IID: {list(pheno_df.columns)[:2]}")
                 sys.exit()
-            # check that the pheno column exists
-            pheno_col = row['pheno_col']
-            if not pheno_col in pheno_df.columns:
-                print(f"Error: pheno_col {pheno_col} does not exist in {pheno_file}")
+            # check that the column exists
+            if not file_col in df.columns:
+                print(f"Error: col {file_col} does not exist in {file_name}")
                 sys.exist()
             else:
-                print(f"Value counts for {pheno_col}:")
-                vc = pheno_df[pheno_col].value_counts()
+                print(f"Value counts for {file_col}:")
+                vc = df[file_col].value_counts()
                 print(vc)
         except:
-            print(f"Error: failed to qc pheno file {pheno_file}")
+            print(f"Error: failed to qc pheno file {file_name}")
 
 if __name__ == "__main__":
     check_args()
     job_df = read_jobs()
-    read_pheno(job_df)
+    read_file(job_df,"pheno")
+    read_file(job_df,"covar")
