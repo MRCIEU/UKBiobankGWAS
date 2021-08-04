@@ -10,3 +10,7 @@ Write a wrapper script that creates/modifies the submission script:
 - single script to run either BOLT or Plink
 
 Provide example for running batch jobs, e.g. wrapper for wrapper
+
+### required
+
+When creating a new directory structure, need to .env file containing paths to various things
