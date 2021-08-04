@@ -9,5 +9,7 @@ then
   export $(cat .env | sed 's/#.*//g' | xargs)
 fi
 
-python qc.py -p $PIPELINE_DATA -u `whoami`
-python create_submission.py -p $PIPELINE_DATA -u `whoami` -d $UKBIOBANK_DATA 
+JOB="${1:-0}"
+
+python qc.py -j $JOB -p $PIPELINE_DATA -u `whoami`
+python create_gwas_job.py -j $JOB -p $PIPELINE_DATA -u `whoami` -d $UKBIOBANK_DATA 
