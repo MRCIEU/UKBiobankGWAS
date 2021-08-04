@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -f .env ]
-then
-  export $(cat .env | sed 's/#.*//g' | xargs)
-fi
-
 RDM=openssl rand -hex 16
 
 GWAS_NAME=$1

@@ -4,6 +4,8 @@ import argparse
 import sys
 import logging
 
+from functions import read_jobs
+
 # logging
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s %(filename)s:%(lineno)d %(message)s",
@@ -28,17 +30,6 @@ input_path = args.path
 user = args.user
 job = args.job
 
-job_cols = [
-    "name",
-    "application_id",
-    "pheno_file",
-    "pheno_col",
-    "covar_file",
-    "covar_col",
-    "qcovar_col",
-    "method",
-]
-
 logger.debug(args)
 
 def check_args():
@@ -52,25 +43,6 @@ def check_args():
         logger.error("User (-u) required")
         sys.exit()
 
-
-def read_jobs():
-    job_file = f"{input_path}/data/phenotypes/{user}/input/jobs.csv"
-    logger.info(f"Reading {job_file}")
-
-    try:
-        job_df = pd.read_csv(job_file)
-        logger.info(f"\n{job_df.head()}")
-        # check columns
-        if not list(job_df.columns) == job_cols:
-            logger.error(f"File structure is not right: {list(job_df.columns)}")
-            sys.exit()
-        else:
-            return job_df
-    except:
-        logger.error(f"Can't read {job_file}")
-        sys.exit()
-
-
 def read_file(job_df, file_type):
     row = job_df.iloc[args.job]
     logger.debug(row)
@@ -80,7 +52,7 @@ def read_file(job_df, file_type):
         file_path = f"{input_path}/data/phenotypes/{user}/input/{file_name}"
         logger.info(f"Reading {file_path}")
         df = pd.read_csv(file_path, sep=" ")
-        logger.info(f"\ndf.head()")
+        logger.info(f"\n{df.head()}")
 
         # check if first two columns are FID and IID
         if not list(df.columns)[:2] == ["FID", "IID"]:
@@ -114,6 +86,6 @@ def read_file(job_df, file_type):
 
 if __name__ == "__main__":
     check_args()
-    job_df = read_jobs()
+    job_df = read_jobs(input_path,user)
     read_file(job_df, "pheno")
     read_file(job_df, "covar")

@@ -14,3 +14,9 @@ Provide example for running batch jobs, e.g. wrapper for wrapper
 ### required
 
 When creating a new directory structure, need to .env file containing paths to various things
+
+### Multiple jobs
+
+```
+for i in {0..1}; do echo $i; sbatch run.sh $i; done
+```
