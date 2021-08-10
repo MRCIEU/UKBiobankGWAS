@@ -23,6 +23,7 @@ args = parser.parse_args()
 
 input_path = args.path
 user = args.user
+pipeline_data = args.data
 
 job_cols = [
     "name",
@@ -66,10 +67,57 @@ def create_dirs(row):
     except:
         logger.error(f"Can't make output directory: {out_dir}")
         sys.exit()
-        
+
+def create_gwas_sbatch(row):
+    if row['method']=='bolt':
+        create_bolt(
+            pheno_name=row['name'],
+            pheno_file = row['pheno_file'], 
+            pheno_col = row['pheno_col'],
+            covar_file = row['covar_file'],
+            covar_col = " ".join(["--covarCol=" + s for s in row['covar_col'].split(";")]),
+            qcovar_col = " ".join(["--qCovarCol=" + s for s in row['qcovar_col'].split(";")])
+            )
+
+def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col):
+    bolt_code = f"""
+    #SBATCH -p mrcieu
+    #SBATCH --job-name gwas-{pheno_name}
+    #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.log
+    #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.err
+    #SBATCH --nodes=1 --tasks-per-node=14
+    #SBATCH --mem-per-cpu=4000
+    #SBATCH --time=5-00:00:00
+
+    cd $SLURM_SUBMIT_DIR
+    {input_path}/scripts/software/BOLT-LMM_v2.3.2/bolt\
+    --bfile=$PIPELINE_DATA/bolt_bfile/grm6_european_filtered_ieu\
+    --bgenFile={pipeline_data}/data.chr0{{1..9}}.bgen\
+    --bgenFile={pipeline_data}/data.chr{{10..22}}.bgen\
+    --bgenFile={pipeline_data}/data.chrX.bgen\
+    --sampleFile={pipeline_data}/data.chr1-22.sample\
+    --geneticMapFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/genetic_map_hg19_withX.txt.gz\
+    --bgenMinMAF=0.001\
+    --phenoFile={input_path}/data/phenotypes/{user}/input/{pheno_file}\
+    --phenoCol=$PHENO_COL\
+    --covarFile={input_path}/data/phenotypes/{user}/input/{covar_file}\
+    {covar_col} {qcovar_col}\
+    --lmm\
+    --LDscoresFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/LDSCORE.1000G_EUR.tab.gz\
+    --LDscoresMatchBp\
+    --numThreads=14\
+    --verboseStats\
+    --modelSnps {input_path}/data/model_snps_for_grm/grm6_snps.prune.in\
+    --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_imputed.txt.gz\
+    --covarMaxLevels=30\
+    --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_out.txt.gz
+    """
+    logger.info(bolt_code)
+
 if __name__ == "__main__":
     check_args()
     job_df = read_jobs(input_path,user)
     row = job_df.iloc[args.job]
     create_dirs(row)
+    create_gwas_sbatch(row)
 
