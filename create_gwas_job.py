@@ -85,7 +85,7 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     #!/bin/bash
 
     #SBATCH -p mrcieu
-    #SBATCH --job-name gwas-{pheno_name}
+    #SBATCH --job-name ukb_{pheno_name}
     #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.log
     #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.err
     #SBATCH --nodes=1 --tasks-per-node=14
@@ -123,7 +123,10 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     o.close()
 
     # run it
-    os.system(f"sbatch {sbatch_file}")
+    try:
+        os.system(f"sbatch {sbatch_file}")
+    except:
+        logger.error('sbatch failed: {sbatch_file}')
 
 if __name__ == "__main__":
     check_args()

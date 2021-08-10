@@ -1,22 +1,26 @@
 # UKBiobankGWAS
 Notes and code for running UK Biobank GWAS at the MRC IEU
 
-### todo
+### Setup
 
-Write a wrapper script that creates/modifies the submission script:
-- variable `--covarCol`
-- SBATCH params, e.g. output file
-- better command ling arg handling
-- single script to run either BOLT or Plink
+- When creating a new directory structure, need to .env file containing paths to various things
 
-Provide example for running batch jobs, e.g. wrapper for wrapper
+### Run
 
-### required
-
-When creating a new directory structure, need to .env file containing paths to various things
-
-### Multiple jobs
+Create `jobs.csv` containing information on GWAS jobs
 
 ```
-for i in {0..1}; do echo $i; sbatch run.sh $i; done
+name,application_id,pheno_file,pheno_col,covar_file,covar_col,qcovar_col,method
+test,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
+test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
+```
+
+#### Single job
+
+`sbatch ukb_gwas.sh`
+
+#### Multiple jobs
+
+```
+for i in {0..1}; do echo $i; sbatch ukb_gwas.sh $i; done
 ```
