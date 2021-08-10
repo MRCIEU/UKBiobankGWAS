@@ -113,6 +113,10 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_out.txt.gz
     """
     logger.info(bolt_code)
+    # write to file
+    o = open(f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/bolt.sh","w")
+    o.write(bolt_code)
+    o.close()
 
 if __name__ == "__main__":
     check_args()
