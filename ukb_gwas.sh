@@ -2,8 +2,10 @@
 
 #SBATCH -p mrcieu
 
+# load anaconda for pandas
 module load languages/anaconda3/3.7
 
+# read .env file
 if [ -f .env ]
 then
   export $(cat .env | sed 's/#.*//g' | xargs)
