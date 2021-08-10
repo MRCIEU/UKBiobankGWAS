@@ -94,7 +94,7 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
 
     cd $SLURM_SUBMIT_DIR
     {input_path}/scripts/software/BOLT-LMM_v2.3.2/bolt
-    --bfile={input_path}/bolt_bfile/grm6_european_filtered_ieu
+    --bfile={input_path}/data/bolt_bfile/grm6_european_filtered_ieu
     --bgenFile={pipeline_data}/data.chr0{{1..9}}.bgen
     --bgenFile={pipeline_data}/data.chr{{10..22}}.bgen
     --bgenFile={pipeline_data}/data.chrX.bgen
