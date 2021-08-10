@@ -81,6 +81,8 @@ def create_gwas_sbatch(row):
 
 def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col):
     bolt_code = f"""
+    #!/bin/bash
+
     #SBATCH -p mrcieu
     #SBATCH --job-name gwas-{pheno_name}
     #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.log
