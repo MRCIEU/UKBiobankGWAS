@@ -3,6 +3,7 @@ import os
 import argparse
 import sys
 import logging
+import textwrap
 from pathlib import Path
 from functions import read_jobs
 
@@ -80,7 +81,7 @@ def create_gwas_sbatch(row):
             )
 
 def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col):
-    bolt_code = f"""
+    bolt_code = textwrap.dedent(f"""
     #!/bin/bash
 
     #SBATCH -p mrcieu
@@ -113,7 +114,7 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_imputed.txt.gz
     --covarMaxLevels=30
     --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_out.txt.gz
-    """
+    """)
     logger.info(bolt_code)
     # write to file
     o = open(f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/bolt.sh","w")
