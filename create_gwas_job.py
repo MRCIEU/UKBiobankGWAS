@@ -117,9 +117,13 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     """)
     logger.info(bolt_code)
     # write to file
-    o = open(f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/bolt.sh","w")
+    sbatch_file = f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/bolt.sh"
+    o = open(sbatch_file,"w")
     o.write(bolt_code)
     o.close()
+
+    # run it
+    os.system(f"sbatch {sbatch_file}")
 
 if __name__ == "__main__":
     check_args()
