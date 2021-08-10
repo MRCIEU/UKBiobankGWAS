@@ -76,7 +76,7 @@ def create_gwas_sbatch(row):
             pheno_col = row['pheno_col'],
             covar_file = row['covar_file'],
             covar_col = " ".join(["--covarCol=" + s for s in row['covar_col'].split(";")]),
-            qcovar_col = " ".join(["--qCovarCol=" + s for s in row['qcovar_col'].split(";")])
+            qcovar_col = " ".join(  ["--qCovarCol=" + s for s in row['qcovar_col'].split(";")])
             )
 
 def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col):
@@ -90,26 +90,26 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     #SBATCH --time=5-00:00:00
 
     cd $SLURM_SUBMIT_DIR
-    {input_path}/scripts/software/BOLT-LMM_v2.3.2/bolt\
-    --bfile=$PIPELINE_DATA/bolt_bfile/grm6_european_filtered_ieu\
-    --bgenFile={pipeline_data}/data.chr0{{1..9}}.bgen\
-    --bgenFile={pipeline_data}/data.chr{{10..22}}.bgen\
-    --bgenFile={pipeline_data}/data.chrX.bgen\
-    --sampleFile={pipeline_data}/data.chr1-22.sample\
-    --geneticMapFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/genetic_map_hg19_withX.txt.gz\
-    --bgenMinMAF=0.001\
-    --phenoFile={input_path}/data/phenotypes/{user}/input/{pheno_file}\
-    --phenoCol=$PHENO_COL\
-    --covarFile={input_path}/data/phenotypes/{user}/input/{covar_file}\
-    {covar_col} {qcovar_col}\
-    --lmm\
-    --LDscoresFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/LDSCORE.1000G_EUR.tab.gz\
-    --LDscoresMatchBp\
-    --numThreads=14\
-    --verboseStats\
-    --modelSnps {input_path}/data/model_snps_for_grm/grm6_snps.prune.in\
-    --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_imputed.txt.gz\
-    --covarMaxLevels=30\
+    {input_path}/scripts/software/BOLT-LMM_v2.3.2/bolt
+    --bfile={input_path}/bolt_bfile/grm6_european_filtered_ieu
+    --bgenFile={pipeline_data}/data.chr0{{1..9}}.bgen
+    --bgenFile={pipeline_data}/data.chr{{10..22}}.bgen
+    --bgenFile={pipeline_data}/data.chrX.bgen
+    --sampleFile={pipeline_data}/data.chr1-22.sample
+    --geneticMapFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/genetic_map_hg19_withX.txt.gz
+    --bgenMinMAF=0.001
+    --phenoFile={input_path}/data/phenotypes/{user}/input/{pheno_file}
+    --phenoCol={pheno_col}
+    --covarFile={input_path}/data/phenotypes/{user}/input/{covar_file}
+    {covar_col} {qcovar_col}
+    --lmm
+    --LDscoresFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/LDSCORE.1000G_EUR.tab.gz
+    --LDscoresMatchBp
+    --numThreads=14
+    --verboseStats
+    --modelSnps {input_path}/data/model_snps_for_grm/grm6_snps.prune.in
+    --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_imputed.txt.gz
+    --covarMaxLevels=30
     --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_out.txt.gz
     """
     logger.info(bolt_code)
