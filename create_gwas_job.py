@@ -81,7 +81,7 @@ def create_gwas_sbatch(row):
             )
 
 def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col):
-    bolt_code = textwrap.dedent(f"""
+    bolt_code = textwrap.dedent(f"""\
     #!/bin/bash
 
     #SBATCH -p mrcieu
