@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def read_summary(f):
+def read_summary(f,method):
     #cols = 
     df = pd.read_csv(f,sep="/",header=None)
     logger.info(df.shape)
@@ -25,10 +25,15 @@ def read_summary(f):
     df.drop_duplicates(inplace=True)
     logger.info(df.shape)
 
-    # counts per user
-    vc = df['user'].value_counts()
-    logger.info(f'\n{vc}')
+    df['method']=method
+    #logger.info(df)
+    return df
 
 if __name__ == "__main__":
-    read_summary('bolt_jobs.txt')
-    read_summary('plink_jobs.txt')
+    df1 = read_summary(f='bolt_jobs.txt',method='bolt-lmm')
+    df2 = read_summary(f='plink_jobs.txt',method='plink')
+    df = pd.concat([df1,df2])
+    logger.info(f"Total number of GWAS by type:\n{df['method'].value_counts()}")
+
+    count_df = df.groupby(['user','method']).size().unstack(fill_value=0)
+    logger.info(f'Total number of GWAS by type and user\n{count_df}')
