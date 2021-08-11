@@ -45,6 +45,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
 def check_args():
     if args.path is None:
         print("Path to working directory (-p) required")
@@ -59,6 +60,7 @@ def check_args():
         logger.error("User (-u) required")
         sys.exit()
 
+
 def create_dirs(row):
     logger.debug(row)
     out_dir = f"{input_path}/data/phenotypes/{user}/output/{row['name']}"
@@ -69,19 +71,26 @@ def create_dirs(row):
         logger.error(f"Can't make output directory: {out_dir}")
         sys.exit()
 
-def create_gwas_sbatch(row):
-    if row['method']=='bolt':
-        create_bolt(
-            pheno_name=row['name'],
-            pheno_file = row['pheno_file'], 
-            pheno_col = row['pheno_col'],
-            covar_file = row['covar_file'],
-            covar_col = " ".join(["--covarCol=" + s for s in row['covar_col'].split(";")]),
-            qcovar_col = " ".join(  ["--qCovarCol=" + s for s in row['qcovar_col'].split(";")])
-            )
 
-def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col):
-    bolt_code = textwrap.dedent(f"""\
+def create_gwas_sbatch(row):
+    if row["method"] == "bolt":
+        create_bolt(
+            pheno_name=row["name"],
+            pheno_file=row["pheno_file"],
+            pheno_col=row["pheno_col"],
+            covar_file=row["covar_file"],
+            covar_col=" ".join(
+                ["--covarCol=" + s for s in row["covar_col"].split(";")]
+            ),
+            qcovar_col=" ".join(
+                ["--qCovarCol=" + s for s in row["qcovar_col"].split(";")]
+            ),
+        )
+
+
+def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_col, qcovar_col):
+    bolt_code = textwrap.dedent(
+        f"""\
     #!/bin/bash
 
     #SBATCH -p mrcieu
@@ -114,11 +123,12 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
      --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_imputed.txt.gz\\
      --covarMaxLevels=30\\
      --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_out.txt.gz
-    """)
+    """
+    )
     logger.info(bolt_code)
     # write to file
     sbatch_file = f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/bolt.sh"
-    o = open(sbatch_file,"w")
+    o = open(sbatch_file, "w")
     o.write(bolt_code)
     o.close()
 
@@ -126,12 +136,12 @@ def create_bolt(pheno_name,pheno_file,pheno_col,covar_file,covar_col,qcovar_col)
     try:
         os.system(f"sbatch {sbatch_file}")
     except:
-        logger.error('sbatch failed: {sbatch_file}')
+        logger.error("sbatch failed: {sbatch_file}")
+
 
 if __name__ == "__main__":
     check_args()
-    job_df = read_jobs(input_path,user)
+    job_df = read_jobs(input_path, user)
     row = job_df.iloc[args.job]
     create_dirs(row)
     create_gwas_sbatch(row)
-

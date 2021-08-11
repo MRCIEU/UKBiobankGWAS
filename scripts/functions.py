@@ -21,7 +21,8 @@ job_cols = [
     "method",
 ]
 
-def read_jobs(input_path,user):
+
+def read_jobs(input_path, user):
     job_file = f"{input_path}/data/phenotypes/{user}/input/jobs.csv"
     logger.info(f"Reading {job_file}")
 

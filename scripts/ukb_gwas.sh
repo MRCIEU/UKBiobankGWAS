@@ -14,8 +14,10 @@ fi
 # set default job row to 0
 JOB="${1:-0}"
 
+USER=$(whoami)
+
 # QC the pheno and covariate files
-python scripts/qc.py -j $JOB -p $PIPELINE_DATA -u `whoami`
+python scripts/qc.py -j $JOB -p $PIPELINE_DATA -u $USER
 
 # Create and run the gwas script
-python scripts/create_gwas_job.py -j $JOB -p $PIPELINE_DATA -u `whoami` -d $UKBIOBANK_DATA 
+python scripts/create_gwas_job.py -j $JOB -p $PIPELINE_DATA -u $USER -d $UKBIOBANK_DATA 

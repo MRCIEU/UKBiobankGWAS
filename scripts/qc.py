@@ -32,6 +32,7 @@ job = args.job
 
 logger.debug(args)
 
+
 def check_args():
     if args.path is None:
         logger.error("Path (-p) required")
@@ -42,6 +43,7 @@ def check_args():
     if args.user is None:
         logger.error("User (-u) required")
         sys.exit()
+
 
 def read_file(job_df, file_type):
     row = job_df.iloc[args.job]
@@ -86,6 +88,6 @@ def read_file(job_df, file_type):
 
 if __name__ == "__main__":
     check_args()
-    job_df = read_jobs(input_path,user)
+    job_df = read_jobs(input_path, user)
     read_file(job_df, "pheno")
     read_file(job_df, "covar")
