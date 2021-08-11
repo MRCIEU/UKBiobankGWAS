@@ -21,12 +21,12 @@ test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
 
 #### Single job
 
-`sbatch UKBiobankGWAS/ukb_gwas.sh`
+`sbatch UKBiobankGWAS/scripts/ukb_gwas.sh`
 
 #### Multiple jobs
 
 ```
-for i in {0..1}; do echo $i; sbatch UKBiobankGWAS/ukb_gwas.sh $i; done
+for i in {0..1}; do echo $i; sbatch UKBiobankGWAS/scripts/ukb_gwas.sh $i; done
 ```
 
 ### To do

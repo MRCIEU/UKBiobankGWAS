@@ -15,7 +15,7 @@ fi
 JOB="${1:-0}"
 
 # QC the pheno and covariate files
-python qc.py -j $JOB -p $PIPELINE_DATA -u `whoami`
+python scripts/qc.py -j $JOB -p $PIPELINE_DATA -u `whoami`
 
 # Create and run the gwas script
-python create_gwas_job.py -j $JOB -p $PIPELINE_DATA -u `whoami` -d $UKBIOBANK_DATA 
+python scripts/create_gwas_job.py -j $JOB -p $PIPELINE_DATA -u `whoami` -d $UKBIOBANK_DATA 
