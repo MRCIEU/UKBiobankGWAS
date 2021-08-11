@@ -3,11 +3,12 @@ Notes and code for running UK Biobank GWAS at the MRC IEU
 
 ### Setup
 
-- When creating a new directory structure for a new user, need to add `.env` file containing paths to ukbiobank directories
+- Clone repo to root of user directory `git clone git@github.com:MRCIEU/UKBiobankGWAS.git`
+- Copy `.env` file into this 
 
 ### Run
 
-Create `jobs.csv` containing information on GWAS jobs
+Create `jobs.csv` in `input` directory, containing information on GWAS jobs, e.g.
 
 ```
 name,application_id,pheno_file,pheno_col,covar_file,covar_col,qcovar_col,method
@@ -20,10 +21,14 @@ test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
 
 #### Single job
 
-`sbatch ukb_gwas.sh`
+`sbatch UKBiobankGWAS/ukb_gwas.sh`
 
 #### Multiple jobs
 
 ```
-for i in {0..1}; do echo $i; sbatch ukb_gwas.sh $i; done
+for i in {0..1}; do echo $i; sbatch UKBiobankGWAS/ukb_gwas.sh $i; done
 ```
+
+### To do
+
+- add args to allow only qc step
