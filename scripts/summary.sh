@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -p mrcieu
+#SBATCH -p mrcieu,mrcieu2
 
 # read .env file
 if [ -f .env ]
