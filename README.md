@@ -29,6 +29,15 @@ test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
 for i in {0..1}; do echo $i; sbatch UKBiobankGWAS/scripts/ukb_gwas.sh $i; done
 ```
 
+### Summary
+
+Can generate summary files and parse to create counts:
+
+```
+sbatch UKBiobankGWAS/scripts/summary.sh
+python UKBiobankGWAS/scripts/summary_parser.py
+```
+
 ### To do
 
 - add args to allow only qc step
