@@ -4,6 +4,7 @@ import argparse
 import sys
 import logging
 import textwrap
+import uuid
 from pathlib import Path
 from functions import read_jobs
 
@@ -25,6 +26,9 @@ args = parser.parse_args()
 input_path = args.path
 user = args.user
 pipeline_data = args.data
+
+# create uid
+uid = uuid.uuid4()
 
 job_cols = [
     "name",
@@ -63,7 +67,7 @@ def check_args():
 
 def create_dirs(row):
     logger.debug(row)
-    out_dir = f"{input_path}/data/phenotypes/{user}/output/{row['name']}"
+    out_dir = f"{input_path}/data/phenotypes/{user}/output/{row['name']}/{uid}"
     logger.debug(out_dir)
     try:
         Path(out_dir).mkdir(parents=True, exist_ok=True)
@@ -95,8 +99,8 @@ def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_col, qcovar
 
     #SBATCH -p mrcieu
     #SBATCH --job-name ukb_{pheno_name}
-    #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.log
-    #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/chr_all_run.err
+    #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.log
+    #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.err
     #SBATCH --nodes=1 --tasks-per-node=14
     #SBATCH --mem-per-cpu=4000
     #SBATCH --time=5-00:00:00
@@ -120,14 +124,14 @@ def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_col, qcovar
      --numThreads=14\\
      --verboseStats\\
      --modelSnps {input_path}/data/model_snps_for_grm/grm6_snps.prune.in\\
-     --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_imputed.txt.gz\\
+     --statsFileBgenSnps={input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/{pheno_name}_imputed.txt.gz\\
      --covarMaxLevels=30\\
-     --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{pheno_name}_out.txt.gz
+     --statsFile={input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/{pheno_name}_out.txt.gz
     """
     )
     logger.info(bolt_code)
     # write to file
-    sbatch_file = f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/bolt.sh"
+    sbatch_file = f"{input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/bolt.sh"
     o = open(sbatch_file, "w")
     o.write(bolt_code)
     o.close()
