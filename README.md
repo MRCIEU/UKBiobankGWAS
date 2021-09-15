@@ -1,12 +1,9 @@
 # UKBiobankGWAS
 Notes and code for running UK Biobank GWAS at the MRC IEU
 
-### Setup
 
-- Clone repo to root of user directory `git clone git@github.com:MRCIEU/UKBiobankGWAS.git`
-- Copy `.env` file into this 
 
-### Run
+### Create input files on RDSF
 
 Create `jobs.csv` in `input` directory, containing information on GWAS jobs, e.g.
 
@@ -18,6 +15,12 @@ test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
 
 - Each gwas job is first checked to make sure both phenotype and covariate files exist in correct format and contain specified columns.
 - If all good, submission script is created and run as a new slurm job
+
+### Setup code on BC4
+
+- Clone repo to root of user directory on BC4, e.g. `/mnt/storage/private/mrcieu/research/UKBIOBANK_GWAS_Pipeline/data/phenotypes/be15516`
+- `git clone git@github.com:MRCIEU/UKBiobankGWAS.git`
+- Copy `.env` file into this 
 
 #### Single job
 
