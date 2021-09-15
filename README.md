@@ -16,6 +16,8 @@ test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
 - Each gwas job is first checked to make sure both phenotype and covariate files exist in correct format and contain specified columns.
 - If all good, submission script is created and run as a new slurm job
 
+Create phenotype and covariate files, and place them in RDSF input directory.
+
 ### Setup code on BC4
 
 - Clone repo to root of user directory on BC4, e.g. `/mnt/storage/private/mrcieu/research/UKBIOBANK_GWAS_Pipeline/data/phenotypes/be15516`
