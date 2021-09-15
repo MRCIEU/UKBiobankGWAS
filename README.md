@@ -17,6 +17,7 @@ test2,123,test.txt,test_name,bolt_covariates.txt,sex;chip,age,bolt
 - If all good, submission script is created and run as a new slurm job
 
 Create phenotype and covariate files, and place them in RDSF input directory.
+- see https://github.com/MRCIEU/BiobankPhenotypes/wiki#phenotype-files for details
 
 ### Setup code on BC4
 
