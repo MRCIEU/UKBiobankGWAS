@@ -27,12 +27,16 @@ Create phenotype and covariate files, and place them in RDSF input directory.
 
 #### Single job
 
-`sbatch UKBiobankGWAS/scripts/ukb_gwas.sh`
+Run from within the repository
+
+`sbatch scripts/ukb_gwas.sh`
 
 #### Multiple jobs
 
+Run from within this repository
+
 ```
-for i in {0..1}; do echo $i; sbatch UKBiobankGWAS/scripts/ukb_gwas.sh $i; done
+for i in {0..1}; do echo $i; sbatch scripts/ukb_gwas.sh $i; done
 ```
 
 ### Summary
