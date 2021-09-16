@@ -21,9 +21,9 @@ Create phenotype and covariate files, and place them in RDSF input directory.
 
 ### Setup code on BC4
 
-- Clone repo to root of user directory on BC4, e.g. `/mnt/storage/private/mrcieu/research/UKBIOBANK_GWAS_Pipeline/data/phenotypes/be15516`
+- Clone repo to any directory on BC4
 - `git clone git@github.com:MRCIEU/UKBiobankGWAS.git`
-- Copy `.env` file into this 
+- Create `.env` file in this repository
 
 #### Single job
 
