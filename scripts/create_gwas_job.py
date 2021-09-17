@@ -77,27 +77,35 @@ def create_dirs(row):
 
 
 def create_gwas_sbatch(row):
+    logger.debug(row)
+    logger.debug(row["qcovar_col"])
+    logger.debug(row["covar_col"])
+    covarData=""
+    # check if covar values exist, if not create empty
+    if not pd.isna(row["qcovar_col"]):
+        covarData += " ".join(
+                [" --qCovarCol=" + s for s in row["qcovar_col"].split(";")]
+            )
+    if not pd.isna(row["covar_col"]):
+        covarData += " ".join(
+                [" --covarCol=" + s for s in row["covar_col"].split(";")]
+            )
     if row["method"] == "bolt":
         create_bolt(
-            pheno_name=row["name"],
-            pheno_file=row["pheno_file"],
-            pheno_col=row["pheno_col"],
-            covar_file=row["covar_file"],
-            covar_col=" ".join(
-                ["--covarCol=" + s for s in row["covar_col"].split(";")]
-            ),
-            qcovar_col=" ".join(
-                ["--qCovarCol=" + s for s in row["qcovar_col"].split(";")]
-            ),
+            pheno_name = row["name"],
+            pheno_file = row["pheno_file"],
+            pheno_col = row["pheno_col"],
+            covar_file = row["covar_file"],
+            covar_data = covarData,
         )
 
 
-def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_col, qcovar_col):
+def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_data):
     bolt_code = textwrap.dedent(
         f"""\
     #!/bin/bash
 
-    #SBATCH -p mrcieu
+    #SBATCH -p mrcieu,mrcieu2
     #SBATCH --job-name ukb_{pheno_name}
     #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.log
     #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.err
@@ -117,7 +125,7 @@ def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_col, qcovar
      --phenoFile={input_path}/data/phenotypes/{user}/input/{pheno_file}\\
      --phenoCol={pheno_col}\\
      --covarFile={input_path}/data/phenotypes/{user}/input/{covar_file}\\
-     {covar_col} {qcovar_col}\\
+     {covar_data}\\
      --lmm\\
      --LDscoresFile={input_path}/scripts/software/BOLT-LMM_v2.3.2/tables/LDSCORE.1000G_EUR.tab.gz\\
      --LDscoresMatchBp\\
@@ -139,10 +147,10 @@ def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_col, qcovar
     o.close()
 
     # run it
-    try:
-        os.system(f"sbatch {sbatch_file}")
-    except:
-        logger.error("sbatch failed: {sbatch_file}")
+    #try:
+    #    os.system(f"sbatch {sbatch_file}")
+    #except:
+    #    logger.error("sbatch failed: {sbatch_file}")
 
 
 if __name__ == "__main__":
@@ -151,3 +159,4 @@ if __name__ == "__main__":
     row = job_df.iloc[args.job]
     create_dirs(row)
     create_gwas_sbatch(row)
+

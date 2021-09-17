@@ -9,6 +9,9 @@ module load languages/anaconda3/3.7
 if [ -f .env ]
 then
   export $(cat .env | sed 's/#.*//g' | xargs)
+else
+  echo "No .env file exists, exiting"
+  exit
 fi
 
 # set default job row to 0
