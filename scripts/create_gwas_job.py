@@ -147,10 +147,10 @@ def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_data):
     o.close()
 
     # run it
-    #try:
-    #    os.system(f"sbatch {sbatch_file}")
-    #except:
-    #    logger.error("sbatch failed: {sbatch_file}")
+    try:
+        os.system(f"sbatch {sbatch_file}")
+    except:
+        logger.error("sbatch failed: {sbatch_file}")
 
 
 if __name__ == "__main__":
