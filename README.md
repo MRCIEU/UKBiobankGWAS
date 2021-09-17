@@ -8,7 +8,7 @@ Notes and code for running UK Biobank GWAS at the MRC IEU
 Create `jobs.csv` in `input` directory, containing information on GWAS jobs
 - all column names must be present
 - if no value, provide empty entry e.g. `,,`
-- for multiple covariates, separete using `;` 
+- for multiple covariates, separate using `;` 
 
 ```
 name,application_id,pheno_file,pheno_col,covar_file,covar_col,qcovar_col,method
