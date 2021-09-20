@@ -67,4 +67,5 @@ python UKBiobankGWAS/scripts/summary_parser.py
 ### To do
 
 - add args to allow only qc step
+- add plink
 
