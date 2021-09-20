@@ -48,6 +48,7 @@ def check_args():
 def read_file(job_df, file_type):
     row = job_df.iloc[args.job]
     logger.debug(row)
+    logger.debug(file_type)
     try:
         file_name = row[f"{file_type}_file"]
         file_col = row[f"{file_type}_col"]
@@ -59,14 +60,23 @@ def read_file(job_df, file_type):
         # check if first two columns are FID and IID
         if not list(df.columns)[:2] == ["FID", "IID"]:
             logger.error(
-                f"First two columns of pheno file must be FID and IID: {list(pheno_df.columns)[:2]}"
+                f"First two columns of pheno file must be FID and IID: {list(df.columns)[:2]}"
             )
             sys.exit()
+        else:
+            logger.info('Header looks ok')
 
         # check that the columns exist in the pheno/covar files
         file_cols = file_col.split(";")
         if file_type == "covar":
-            file_cols.extend(row[f"q{file_type}_col"].split(";"))
+            logger.info(f"file_cols: {file_cols}")
+            logger.debug(row)
+            cov_col = f"q{file_type}_col"
+            if pd.isna(row[cov_col]):
+                logger.info(f"{cov_col} is null, skipping")
+            else:
+                file_cols.extend(row[f"q{file_type}_col"].split(";"))
+            logger.info(f"file_cols: {file_cols}")
         logger.info(f"file_cols: {file_cols}")
         for col in file_cols:
             if not col in df.columns:
