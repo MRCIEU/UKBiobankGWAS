@@ -9,6 +9,7 @@ Notes and code for running UK Biobank GWAS at the MRC IEU
 3. Wait for files to copy over to BC4
 4. On BC4, clone this repo and get .env
 5. Run the GWAS submission script
+6. A job is submitted to the queue that QCs the files, and then creates a new submission job for the GWAS
 6. Wait for GWAS to complete and output files to sync back to RDSF
 
 ## Details
