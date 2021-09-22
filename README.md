@@ -35,8 +35,8 @@ Create phenotype and covariate files, and place them in RDSF input directory as 
 
 ### Setup and run job submission code on BC4
 
-- Clone repo to any directory on BC4
-- `git clone git@github.com:MRCIEU/UKBiobankGWAS.git`
+- Set up [GitHub SSH keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+- Clone repo to any directory on BC4 `git clone git@github.com:MRCIEU/UKBiobankGWAS.git` 
 - Copy the `/mnt/storage/private/mrcieu/research/UKBIOBANK_GWAS_Pipeline/scripts/.env` file in this repository
 
 #### Single job
