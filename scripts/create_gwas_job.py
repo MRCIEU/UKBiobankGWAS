@@ -101,11 +101,13 @@ def create_gwas_sbatch(row):
 
 
 def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_data):
+    # removing mrcieu partitions until permissions are sorted
+    # SBATCH -p mrcieu,mrcieu2
     bolt_code = textwrap.dedent(
         f"""\
     #!/bin/bash
 
-    #SBATCH -p cpu,mrcieu,mrcieu2
+    #SBATCH -p cpu
     #SBATCH --job-name ukb_{pheno_name}
     #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.log
     #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.err
