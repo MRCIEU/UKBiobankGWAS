@@ -107,7 +107,7 @@ def create_bolt(pheno_name, pheno_file, pheno_col, covar_file, covar_data):
         f"""\
     #!/bin/bash
 
-    #SBATCH -p cpu
+    #SBATCH -p cpu,mrcieu,mrcieu2
     #SBATCH --job-name ukb_{pheno_name}
     #SBATCH -o {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.log
     #SBATCH -e {input_path}/data/phenotypes/{user}/output/{pheno_name}/{uid}/chr_all_run.err
