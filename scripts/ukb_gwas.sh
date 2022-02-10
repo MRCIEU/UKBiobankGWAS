@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -p serial,mrcieu,mrcieu2
+#SBATCH -p cpu,mrcieu
 
 # load anaconda for pandas
 module load languages/anaconda3/3.7
