@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #SBATCH -p mrcieu,mrcieu2
+#SBATCH --account=SSCM013902
 
 # read .env file
 if [ -f .env ]
