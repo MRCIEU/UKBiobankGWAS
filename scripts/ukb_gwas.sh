@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #SBATCH -p cpu,mrcieu
+#SBATCH --account=SSCM013902
 
 # load anaconda for pandas
 module load languages/anaconda3/3.7
