@@ -1,6 +1,10 @@
 # UKBiobankGWAS
 Notes and code for running UK Biobank GWAS at the MRC IEU
 
+Please note the pipeline is built on University of Bristol infrastructure and this documentation is for internal use only.
+
+For external researchers - please refer to [UK Biobank Genetic Data: MRC-IEU Quality Control, version 2](https://data.bris.ac.uk/data/dataset/1ovaau5sxunp2cv8rcy88688v) if you are interested in building the pipeline locally.
+
 
 ## Steps
 
