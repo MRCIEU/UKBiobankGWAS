@@ -1,6 +1,10 @@
 # UKBiobankGWAS
 Notes and code for running UK Biobank GWAS at the MRC IEU
 
+Please note the pipeline is built on University of Bristol infrastructure and this documentation is also for internal use only.
+
+For external researchers - please refer to [UK Biobank Genetic Data: MRC-IEU Quality Control, version 2](https://data.bris.ac.uk/data/dataset/1ovaau5sxunp2cv8rcy88688v) if you are interested in building the pipeline locally.
+
 
 ## Steps
 
@@ -18,7 +22,7 @@ RDSF (backed-up)
 - Input:
   - `/projects/MRC-IEU/research/data/ukbiobank/software/gwas_pipeline/dev/release_candidate/data/phenotypes/<your_username>/input`
 - Output (deprecated):
-  - `/projects/MRC-IEU/research/data/ukbiobank/software/gwas_pipeline/dev/release_candidate/data/phenotypes/<your_username>/output`
+  - ~~`/projects/MRC-IEU/research/data/ukbiobank/software/gwas_pipeline/dev/release_candidate/data/phenotypes/<your_username>/output`~~
 
 BC4 (not backed-up)
 - Input (read-only):
