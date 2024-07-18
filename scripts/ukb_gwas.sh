@@ -4,7 +4,7 @@
 #SBATCH --account=SSCM013902
 
 # load anaconda for pandas
-module load languages/anaconda3/3.7
+module load languages/python/3.12.3
 
 # read .env file
 if [ -f .env ]
